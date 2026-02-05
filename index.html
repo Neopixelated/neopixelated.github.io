@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stock Analysis Index</title>
+  <title>Stock Dashboard – Internal Pages</title>
 
   <style>
     * {
@@ -16,79 +16,148 @@
     body {
       height: 100vh;
       width: 100vw;
-      background: linear-gradient(135deg, #020617, #020617);
+      background: #020617;
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      overflow: hidden;
     }
 
-    .container {
-      text-align: center;
-      width: 100%;
-      max-width: 900px;
-      padding: 40px;
+    nav {
+      height: 60px;
+      background: #020617;
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 0 24px;
+    }
+
+    nav a {
+      color: #e5e7eb;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .page {
+      display: none;
+      height: calc(100vh - 60px);
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .chart {
+      width: 50%;
+      height: 100%;
+    }
+
+    .analysis {
+      width: 50%;
+      height: 100%;
+      padding: 30px;
+      overflow-y: auto;
+      background: #0f172a;
     }
 
     h1 {
-      margin-bottom: 40px;
-      font-size: 48px;
-      font-weight: 700;
-      letter-spacing: 1px;
+      font-size: 32px;
+      margin-bottom: 20px;
     }
 
-    ul {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 30px;
+    p {
+      font-size: 18px;
+      line-height: 1.6;
     }
 
-    a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 80px;
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      border-radius: 14px;
-      text-decoration: none;
-      color: white;
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    .tradingview-widget-container,
+    .tradingview-widget-container__widget {
+      width: 100%;
+      height: 100%;
     }
 
-    a:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
-      background: linear-gradient(135deg, #334155, #1e293b);
-    }
-
-    a:active {
-      transform: translateY(0);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    .tradingview-widget-copyright {
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Stock Analysis Dashboard</h1>
-    <ul>
-      <li><a href="googl.html">GOOGL</a></li>
-      <li><a href="jpm.html">JPM</a></li>
-      <li><a href="nflx.html">NFLX</a></li>
-      <li><a href="nvda.html">NVDA</a></li>
-      <li><a href="pep.html">PEP</a></li>
-      <li><a href="pypl.html">PYPL</a></li>
-      <li><a href="shel.html">SHEL</a></li>
-      <li><a href="tmc.html">TMC</a></li>
-      <li><a href="zbh.html">ZBH</a></li>
-      <li><a href="gmet.html">GMET</a></li>
-    </ul>
-  </div>
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="#aapl">AAPL</a>
+    <a href="#nvda">NVDA</a>
+  </nav>
+
+  <!-- PAGE: AAPL -->
+  <section id="aapl" class="page">
+    <div class="chart">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+        {
+          "autosize": true,
+          "symbol": "NASDAQ:AAPL",
+          "interval": "D",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en"
+        }
+        </script>
+      </div>
+    </div>
+    <div class="analysis">
+      <h1>AAPL Analysis</h1>
+      <p>
+        Apple is trading within a longer-term uptrend. Watch the 50‑day and 200‑day
+        moving averages for trend confirmation and key support levels.
+      </p>
+    </div>
+  </section>
+
+  <!-- PAGE: NVDA -->
+  <section id="nvda" class="page">
+    <div class="chart">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+        {
+          "autosize": true,
+          "symbol": "NASDAQ:NVDA",
+          "interval": "D",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en"
+        }
+        </script>
+      </div>
+    </div>
+    <div class="analysis">
+      <h1>NVDA Analysis</h1>
+      <p>
+        NVIDIA continues to show strong momentum driven by AI demand. Monitor
+        volume expansion and higher‑low structure for continuation signals.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    function showPage() {
+      const hash = location.hash.replace('#', '') || 'aapl';
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const active = document.getElementById(hash);
+      if (active) active.classList.add('active');
+    }
+
+    window.addEventListener('hashchange', showPage);
+    window.addEventListener('load', showPage);
+  </script>
 
 </body>
 </html>
